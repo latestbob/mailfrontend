@@ -43,7 +43,7 @@ function handleSubmit(e){
     
   
   
-      axios.post('http://localhost:5000/api/send', data)
+      axios.post('https://mymailer.onrender.com/api/send', data)
         .then((response) => {
           console.log('Email sent successfully:', response.data);
           if(response.status == 200){

@@ -215,7 +215,7 @@ function handleSubmit(e){
                     <br/>
 
                     {
-                        subject && recipient_email && content && <button className='btn btn-info py-2 font-weight-bold text-center text-light rounde w-100'>Send Mail</button>
+                        subject && content && <button className='btn btn-info py-2 font-weight-bold text-center text-light rounde w-100'>Send Mail</button>
                     }
 
                     

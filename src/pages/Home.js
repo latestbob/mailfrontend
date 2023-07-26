@@ -55,7 +55,7 @@ function handleSubmit(e){
     
   
   
-      axios.post('https://testserver-gthi.onrender.com', data)
+      axios.post('https://testserver-gthi.onrender.com/api/send', data)
         .then((response) => {
           console.log('Email sent successfully:', response.data);
           if(response.status == 200){

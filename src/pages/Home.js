@@ -18,6 +18,13 @@ const[bcc, setBcc] = useState("");
 
 const[bccList, setBccList] = useState([]);
 
+// smtp details
+
+const[host,setHost] = useState("");
+const[username, setUsername] = useState("");
+const[password, setPassword] = useState("");
+const[port, setPort] = useState(0);
+
 function clearBcc(){
     setBcc("");
 
@@ -33,10 +40,14 @@ function handleSubmit(e){
     e.preventDefault();
 
     const data = {
-        "email":recipient_email,
+        
         "subject":subject,
         "message":content,
         "bccList":bccList,
+        "host":host,
+        "username":username,
+        "port":port,
+        "password":password
     };
 
     ///
@@ -44,7 +55,7 @@ function handleSubmit(e){
     
   
   
-      axios.post('https://mymailer.onrender.com/api/send', data)
+      axios.post('https://testserver-gthi.onrender.com', data)
         .then((response) => {
           console.log('Email sent successfully:', response.data);
           if(response.status == 200){
@@ -78,16 +89,66 @@ function handleSubmit(e){
 
                 <form onSubmit={handleSubmit}>
 
-                <div className='form-group'>
-                        <label>Recipient Email</label>
-                        
-                            <input type="text"onChange={function(e){
-                                        setRecipientEmail(e.target.value)
-                                    }} value={recipient_email} className='form-control'placeholder='Enter Recipient Email'required/>
+                
+
+                <div className='smtpdiv'>
+
+                    <h5>Set STMP Details Here</h5>
+
+                    <div className='row'>
+                            <div className='col-6 form-group'>
+                                <label>SMTP Host</label>
+                                
+                                    <input type="text"onChange={function(e){
+                                        setHost(e.target.value)
+                                    }}value={host} className='form-control'required/>
+
+
+                            </div>
+
+                            <div className='col-6 form-group'>
+                                <label>SMTP Username</label>
+                                
+                                    <input type="text"onChange={function(e){
+                                        setUsername(e.target.value)
+                                    }}value={username} className='form-control'required/>
+
+
+                            </div>
 
 
                     </div>
 
+                    <div className='row'>
+                            <div className='col-6 form-group'>
+                                <label>SMTP Password</label>
+                                
+                                    <input type="text"onChange={function(e){
+                                        setPassword(e.target.value)
+                                    }}value={password} className='form-control'required/>
+
+
+                            </div>
+
+                            <div className='col-6 form-group'>
+                                <label>SMTP Port</label>
+                                
+                                    <input type="number"onChange={function(e){
+                                        setPort(e.target.value)
+                                    }}value={port} className='form-control'required/>
+
+
+                            </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <hr/>
+                        
+              
                     <div className='form-group'>
                         <label>BCC Emails</label>
                         <div className='row'>

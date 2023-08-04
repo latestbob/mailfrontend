@@ -24,6 +24,8 @@ const[host,setHost] = useState("");
 const[username, setUsername] = useState("");
 const[password, setPassword] = useState("");
 const[port, setPort] = useState(0);
+const[multiplebcc, setMultipleBcc] = useState([]);
+const[textareainput, setTextAreaInput] = useState("");
 
 function clearBcc(){
     setBcc("");
@@ -75,6 +77,34 @@ function handleSubmit(e){
         });
 
     
+}
+
+
+function handleTextAreaInput(e){
+    e.preventDefault();
+
+    const emails = textareainput.split(',');
+
+    // Remove any leading/trailing whitespaces from email addresses
+    const trimmedEmails = emails.map((email) => email.trim());
+
+    // Filter out any empty email addresses
+    const validEmails = trimmedEmails.filter((email) => email !== '');
+
+    // Add new emails to the existing bccList
+    setBccList((prevList) => [...prevList, ...validEmails]);
+
+    // Clear the textarea after adding emails
+    setTextAreaInput("");
+
+}
+
+
+function emptyBcc(e){
+    e.preventDefault();
+
+    setBccList([]);
+    setTextAreaInput("");
 }
     return (
        <div className='col-md-8 m-auto  main'>
@@ -150,27 +180,7 @@ function handleSubmit(e){
                         
               
                     <div className='form-group'>
-                        <label>BCC Emails</label>
-                        <div className='row'>
-                            <div className='col-md-10'>
-                            <input type="text"onChange={function(e){
-                                        setBcc(e.target.value)
-                                    }} value={bcc} className='form-control'placeholder='Enter Recipient Email'/>
-
-                            </div>
-
-                            <div className='col-md-2'>
-                            <button onClick={function(e){
-                                 e.preventDefault();
-                                 if(bcc != ''){
-                                setBccList([...bccList , bcc]);
-                                 setBcc('');
-                                 clearBcc()
-                                 }
-                            }} className='btn btn-info py-2 font-weight-bold text-center text-light rounde '>Add</button>
-                            </div>
-
-                        </div>
+                        
 
                         {bccList.map((list, index) => (
                         <p className='badge badge-info mx-1'key={index}>{list} <a  onClick={function(e){
@@ -182,6 +192,21 @@ function handleSubmit(e){
                             clearBcc()
                         }}  className='symptomscancel text-light px-2 font-weight-bold'>x</a></p>
                     ))}
+
+                    </div>
+
+
+                    <div className='form-group'>
+                        <label>Multiple Bcc</label>
+                        <textarea value={textareainput} onChange={function(e){
+                            setTextAreaInput(e.target.value);
+                        }} placeholder='Enter Multiple Bcc here' className='form-control'>
+
+                        </textarea>
+
+
+                        <button onClick={handleTextAreaInput} className='btn btn-info py-2 font-weight-bold text-center text-light rounde '>Add Bcc</button> ||  <button onClick={emptyBcc} className='btn btn-danger py-2 font-weight-bold text-center text-light rounded '>Clear All BCC</button>
+                        
 
                     </div>
 
@@ -215,7 +240,7 @@ function handleSubmit(e){
                     <br/>
 
                     {
-                        subject && content && <button className='btn btn-info py-2 font-weight-bold text-center text-light rounde w-100'>Send Mail</button>
+                        subject && bccList && content && <button className='btn btn-info py-2 font-weight-bold text-center text-light rounde w-100'>Send Mail</button>
                     }
 
                     
